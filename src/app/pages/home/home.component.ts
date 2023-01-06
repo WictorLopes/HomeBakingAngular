@@ -1,6 +1,5 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
-import { CreditDebitFilterPipe } from './creditDebitFilter'
 import { HttpClient } from '@angular/common/http'
 import { AuthService } from './logout'
 @Component({
