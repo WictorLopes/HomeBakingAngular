@@ -8,7 +8,8 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { HomeComponent } from './pages/home/home.component'
 import { LoginComponent } from './pages/login/login.component'
-import { CreditDebitFilterPipe } from './pages/home/creditDebitFilter'
+import { CreditDebitFilterPipe } from './pages/home/creditDebitFilter';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, LoginComponent, CreditDebitFilterPipe],
@@ -19,6 +20,7 @@ import { CreditDebitFilterPipe } from './pages/home/creditDebitFilter'
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
