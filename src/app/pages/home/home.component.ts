@@ -1,7 +1,8 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { CreditDebitFilterPipe } from './creditDebitFilter'
-
+import { HttpClient } from '@angular/common/http'
+import { AuthService } from './logout'
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -19,6 +20,8 @@ export class HomeComponent {
 
   cleanTransaction() {
     var transaction = {
+      coinType: 'real | dolar | euro',
+      coinTypeFilter: 'real',
       type: 'debit',
       typeFilter: '',
       amount: 0.0,
@@ -27,11 +30,10 @@ export class HomeComponent {
 
     return transaction
   }
-  constructor(private router: Router) {}
-  logout() {
-    localStorage.removeItem('authToken')
 
-    this.router.navigate([''])
+  logout(router: Router) {
+    localStorage.removeItem('authToken')
+    router.navigate([''])
   }
 
   transactions = [
@@ -39,51 +41,96 @@ export class HomeComponent {
       amount: 100.0,
       description: 'Deposito',
       type: 'credit',
+      coinTypeFilter: 'real',
     },
     {
       amount: 50.0,
       description: 'Mercado',
       type: 'debit',
+      coinTypeFilter: 'real',
     },
     {
       amount: 25.26,
       description: 'Pagamento pro Guilherme',
       type: 'debit',
+      coinTypeFilter: 'dolar',
     },
     {
       amount: 100.0,
       description: 'Deposito',
       type: 'credit',
+      coinTypeFilter: 'euro',
     },
     {
       amount: 35.15,
-      description: "Ifood",
+      description: 'Ifood',
       type: 'debit',
+      coinTypeFilter: 'real',
     },
     {
       amount: 20,
       description: 'Netflix',
       type: 'debit',
+      coinTypeFilter: 'dolar',
     },
   ]
   transaction = this.cleanTransaction()
   account = this.cleanAccount()
 
   transactionList = this.transactions
+  cotacaoDolar = 0
+  cotacaoEuro = 0
+  cotacaoDolarEuro = 0
+  cotacaoEuroDolar = 0
+  constructor(private http: HttpClient) {}
+  responseDolar = this.http
+    .get('https://economia.awesomeapi.com.br/all/USD-BRL')
+    .subscribe((dados: any) => {
+      this.cotacaoDolar = dados.USD.high
+    })
+  responseEuro = this.http
+    .get('https://economia.awesomeapi.com.br/all/EUR-BRL')
+    .subscribe((dados: any) => {
+      this.cotacaoEuro = dados.EUR.high
+    })
+  responseDolarEuro = this.http
+    .get('https://economia.awesomeapi.com.br/all/USD-EUR')
+    .subscribe((dados: any) => {
+      this.cotacaoDolarEuro = dados.USD.high
+    })
+  responseEuroDolar = this.http
+    .get('https://economia.awesomeapi.com.br/all/EUR-USD')
+    .subscribe((dados: any) => {
+      this.cotacaoEuroDolar = dados.EUR.high
+    })
 
-  saveTransaction(transaction: {
+  async saveTransaction(transaction: {
     amount: any
     type: any
     description?: string
+    coinType: any
+    coinTypeFilter: any
   }) {
+    console.log('cotacaoDolar', this.cotacaoDolar)
+    console.log('cotacaoEuro', this.cotacaoEuro)
+    console.log('cotacaoDolarEuro', this.cotacaoDolarEuro)
+    console.log('cotacaoDolarEuro', this.cotacaoDolarEuro)
+
     var amount = parseFloat(this.transaction.amount.toString())
     var num = parseFloat(this.account.runningBalance.toString())
     var answer = 0
-
     if (transaction.type === 'credit') {
-      answer = num + amount
+      transaction.coinTypeFilter == 'dolar'
+        ? (answer = num + amount * this.cotacaoDolar)
+        : transaction.coinTypeFilter == 'euro'
+        ? (answer = num + amount * this.cotacaoEuro)
+        : (answer = num + amount)
     } else {
-      answer = num - amount
+      transaction.coinTypeFilter == 'dolar'
+        ? (answer = num - amount * this.cotacaoDolar)
+        : transaction.coinTypeFilter == 'euro'
+        ? (answer = num - amount * this.cotacaoEuro)
+        : (answer = num - amount)
     }
     this.account.runningBalance = answer
 
@@ -92,4 +139,3 @@ export class HomeComponent {
     this.transaction = this.cleanTransaction()
   }
 }
-
