@@ -9,6 +9,7 @@ import { Router } from '@angular/router'
 })
 export class LoginComponent implements OnInit {
   form: any
+  //conta padrão para entrar
   emailDB: string = 'admin'
 
   senhaDB: string = '123'
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.criarForm()
   }
-
+//criar o formulario de preenchimento de login vazio
   criarForm() {
     this.form = this.formBuilder.group({
       email: [''],
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
       senha: [''],
     })
   }
+  //checagem de dados se bate com a conta padrão, se sim direciona para o home se não exibe mensagem de texto
   login() {
     if (
       this.form.get('email').value == this.emailDB &&

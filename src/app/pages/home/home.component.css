@@ -1,8 +1,14 @@
 .firstWord {
-    font-family: 'Open Sans', sans-serif; font-weight: 300
-  }
-  
-  .secondWord {
-    font-family: 'Open Sans', sans-serif; font-weight: 400
-  }
-  
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+}
+
+.secondWord {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+}
+
+.site-header{
+  background-color: ghostwhite;
+  margin-bottom: 100px;
+}

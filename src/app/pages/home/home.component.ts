@@ -9,6 +9,7 @@ import { AuthService } from './logout'
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+  //conta padrão para entrar
   cleanAccount() {
     var account = {
       name: 'Admin',
@@ -18,6 +19,7 @@ export class HomeComponent {
     return account
   }
 
+  //toda vez que faz uma transição volta para os valor 0, tipo débito e descrição vazia
   cleanTransaction() {
     var transaction = {
       coinType: 'real | dolar | euro',
@@ -30,12 +32,12 @@ export class HomeComponent {
 
     return transaction
   }
-
+  //logout apenas para voltar para a página de login
   logout(router: Router) {
     localStorage.removeItem('authToken')
     router.navigate([''])
   }
-
+  //transações fixas para aparecer no histórico
   transactions = [
     {
       amount: 100.0,
@@ -76,8 +78,9 @@ export class HomeComponent {
   ]
   transaction = this.cleanTransaction()
   account = this.cleanAccount()
-
   transactionList = this.transactions
+
+  //API para pegar a cotação da moeda no dia
   cotacaoDolar = 0
   cotacaoEuro = 0
   cotacaoDolarEuro = 0
@@ -104,18 +107,14 @@ export class HomeComponent {
       this.cotacaoEuroDolar = dados.EUR.high
     })
 
-  async saveTransaction(transaction: {
+    //função para calcular o valor a ser depositado dependendo da moeda e salvar a transição
+  saveTransaction(transaction: {
     amount: any
     type: any
     description?: string
     coinType: any
     coinTypeFilter: any
   }) {
-    console.log('cotacaoDolar', this.cotacaoDolar)
-    console.log('cotacaoEuro', this.cotacaoEuro)
-    console.log('cotacaoDolarEuro', this.cotacaoDolarEuro)
-    console.log('cotacaoDolarEuro', this.cotacaoDolarEuro)
-
     var amount = parseFloat(this.transaction.amount.toString())
     var num = parseFloat(this.account.runningBalance.toString())
     var answer = 0

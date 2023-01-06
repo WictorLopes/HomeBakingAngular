@@ -10,24 +10,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
   </head>
+  <header class="site-header">
+    <div
+      style="display: flex; justify-content: space-evenly; align-items: center"
+    >
+      <h1 class="firstWord" style="display: flex">
+        Home <span class="secondWord">Banking</span>
+      </h1>
+      <button class="btn btn-danger" onclick="window.location.assign('')">
+        Sair
+      </button>
+    </div>
+  </header>
   <body ng-controller="MainCtrl">
     <div class="container">
-      <div
-        style="
-          display: flex;
-          justify-content: space-evenly;
-          align-items: center;
-        "
-      >
-        <h1 class="firstWord" style="margin-right: auto">
-          Wictor <span class="secondWord">Banking</span>
-        </h1>
-        <button class="btn btn-danger" onclick="window.location.assign('')">
-          Sair
-        </button>
-        <a href=""></a>
-      </div>
-
       <h4 class="alert alert-default" style="padding-left: initial">
         Olá {{ account.name }} seu saldo é de: R$
         {{ account.runningBalance.toFixed(2) }} // $
@@ -107,7 +103,7 @@
                   Valor em R$
                   {{
                     transaction.coinTypeFilter == "real"
-                      ? transaction.amount
+                      ? transaction.amount.toFixed(2)
                       : transaction.coinTypeFilter == "dolar"
                       ? (transaction.amount * this.cotacaoDolar).toFixed(2)
                       : (transaction.amount * this.cotacaoEuro).toFixed(2)
