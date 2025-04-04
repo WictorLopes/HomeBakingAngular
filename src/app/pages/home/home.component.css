@@ -12,3 +12,11 @@
   background-color: ghostwhite;
   margin-bottom: 100px;
 }
+
+tr.credito td {
+  background-color: #d4edda !important; /* verde claro */
+}
+
+tr.debito td {
+  background-color: #f8d7da !important; /* vermelho claro */
+}

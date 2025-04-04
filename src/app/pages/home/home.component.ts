@@ -74,6 +74,12 @@ export class HomeComponent {
       type: 'debit',
       coinTypeFilter: 'dolar',
     },
+    {
+      amount: 45,
+      description: 'Pernambuco da Sorte',
+      type: 'credit',
+      coinTypeFilter: 'euro',
+    },
   ]
   transaction = this.cleanTransaction()
   account = this.cleanAccount()
